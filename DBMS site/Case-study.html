@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Geek DBMS - Full Case Study</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #000;
+      color: #c9d1d9;
+      min-height: 100vh;
+    }
+    .hero {
+      padding: 4rem 2rem;
+      text-align: center;
+    }
+    .hero-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      background: rgba(15, 15, 15, 0.9);
+      padding: 2rem;
+      border-radius: 20px;
+      box-shadow: 0 0 20px #00ffe5;
+    }
+    h2, h3 {
+      color: #00ffe5;
+      margin-top: 2rem;
+      text-shadow: 0 0 10px #00ffe5;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1.5rem;
+      box-shadow: 0 0 10px rgba(0, 229, 255, 0.2);
+    }
+    th, td {
+      border: 1px solid #03e7d08f;
+      padding: 0.6rem;
+      text-align: center;
+    }
+    th {
+      background-color: #011619;
+      color: #00ffe5;
+      text-shadow: 0 0 5px #00ffe5;
+    }
+    .query-box {
+      background-color: #011619;
+      padding: 1rem;
+      margin-top: 1rem;
+      margin-bottom: 0.5rem;
+      border-radius: 10px;
+      text-align: left;
+      box-shadow: 0 0 10px #00ffc3;
+    }
+    .query-box code {
+      display: block;
+      background-color: #0c1c1e;
+      padding: 1rem;
+      margin: 0.5rem 0;
+      border-radius: 8px;
+      font-family: monospace;
+      color: #00ffbb;
+      text-shadow: 0 0 5px #00ffbb;
+    }
+    .query-example {
+      font-size: 0.95rem;
+      color: #bbbbbb;
+      margin-bottom: 1.5rem;
+      background-color: #0c1c1e;
+      padding: 1rem;
+      border-left: 5px solid #00ffe5;
+      border-radius: 8px;
+      text-align: left;
+      box-shadow: 0 0 8px #00ffe5;
+    }
+    .back-btn {
+      display: inline-block;
+      margin-top: 2rem;
+      padding: 0.75rem 1.5rem;
+      background-color: #00ffe5;
+      color: #000;
+      font-weight: bold;
+      text-decoration: none;
+      border-radius: 10px;
+      box-shadow: 0 0 10px #00ffe5, 0 0 20px #00ffe5;
+      transition: transform 0.2s ease;
+    }
+    .back-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 15px #00ffe5, 0 0 30px #00ffe5;
+    }
+  </style>
+</head>
+<body>
+  <section class="hero">
+    <div class="hero-content">
+      <h2>Complete Student Data</h2>
+      <table>
+        <thead>
+          <tr><th>Name</th><th>Roll No</th><th>DBMS</th><th>OS</th><th>Networks</th><th>Web Tech</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Riya Sharma</td><td>101</td><td>89</td><td>75</td><td>68</td><td>80</td></tr>
+          <tr><td>Aarav Verma</td><td>102</td><td>81</td><td>92</td><td>79</td><td>88</td></tr>
+          <tr><td>Kavya Nair</td><td>103</td><td>72</td><td>64</td><td>85</td><td>77</td></tr>
+          <tr><td>Dev Joshi</td><td>104</td><td>55</td><td>67</td><td>73</td><td>70</td></tr>
+          <tr><td>Saanvi Mehta</td><td>105</td><td>84</td><td>70</td><td>69</td><td>91</td></tr>
+          <tr><td>Rudra Patel</td><td>106</td><td>66</td><td>74</td><td>71</td><td>68</td></tr>
+          <tr><td>Meera Gupta</td><td>107</td><td>83</td><td>78</td><td>88</td><td>79</td></tr>
+          <tr><td>Aditya Rao</td><td>108</td><td>95</td><td>90</td><td>84</td><td>95</td></tr>
+          <tr><td>Ananya Singh</td><td>109</td><td>82</td><td>69</td><td>76</td><td>80</td></tr>
+          <tr><td>Yash Thakur</td><td>110</td><td>79</td><td>77</td><td>70</td><td>82</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Step 1: Filter Eligible Students (>= 60% in All Subjects)</h3>
+      <div class="query-box">
+        <code>SELECT * FROM students
+WHERE dbms >= 60 AND os >= 60 AND networks >= 60 AND webtech >= 60;</code>
+      </div>
+      <div class="query-example">
+        ✅ Output: Everyone except <strong>Dev Joshi</strong> (who scored 55 in DBMS) will be shown in results.
+      </div>
+
+      <h3>Step 2: Eliminate Absentees or Fails</h3>
+      <div class="query-box">
+        <code>SELECT * FROM students WHERE status = 'Present';</code>
+      </div>
+      <div class="query-example">
+        ✅ Output: If a student was absent or failed, they won't appear. Assuming all are present, no change.
+      </div>
+
+      <h3>Step 3: Rank Students Subject-wise (Top 3)</h3>
+      <div class="query-box">
+        <code>SELECT name, dbms FROM students ORDER BY dbms DESC LIMIT 3;
+SELECT name, os FROM students ORDER BY os DESC LIMIT 3;
+SELECT name, networks FROM students ORDER BY networks DESC LIMIT 3;
+SELECT name, webtech FROM students ORDER BY webtech DESC LIMIT 3;</code>
+      </div>
+      <div class="query-example">
+        ✅ DBMS Top 3: Aditya Rao (95), Riya Sharma (89), Saanvi Mehta (84)<br>
+        ✅ OS Top 3: Aarav Verma (92), Aditya Rao (90), Meera Gupta (78)<br>
+        ✅ Networks Top 3: Meera Gupta (88), Kavya Nair (85), Aditya Rao (84)<br>
+        ✅ Web Tech Top 3: Aditya Rao (95), Saanvi Mehta (91), Aarav Verma (88)
+      </div>
+
+      <h3>Step 4: Handle Ties Using Aggregate</h3>
+      <div class="query-box">
+        <code>SELECT name, (dbms + os + networks + webtech) AS total_marks
+FROM students
+ORDER BY total_marks DESC;</code>
+      </div>
+      <div class="query-example">
+        ✅ Output: Aditya Rao (364), Aarav Verma (340), Riya Sharma (312), etc. Useful if 2+ students have same marks in any subject.
+      </div>
+
+      <a class="back-btn" href="index.html">← Back to Homepage</a>
+    </div>
+  </section>
+</body>
+</html>
